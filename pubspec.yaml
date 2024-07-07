@@ -63,8 +63,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-assets:
-- assets/images/
+  assets:
+    - assets/images/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -78,11 +78,13 @@ assets:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-fonts:
-- family: Billabong
   fonts:
-    - asset: assets/fonts/Billabong.ttf
-    - asset: assets/fonts/InstagramSans.ttf
+      - family: Billabong
+        fonts:
+          - asset: assets/fonts/Billabong.ttf
+      - family: InstagramSans
+        fonts:
+          - asset: assets/fonts/InstagramSans.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
