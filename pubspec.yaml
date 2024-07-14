@@ -17,6 +17,9 @@ dependencies:
   firebase_storage: ^11.7.7
   firebase_database: ^10.5.7
   cupertino_icons: ^1.0.6
+  uuid: ^4.4.2
+  image_picker: ^1.1.2
+
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +33,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/user_placeholder.png
 
   fonts:
       - family: Billabong
