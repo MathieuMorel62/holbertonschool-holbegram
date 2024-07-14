@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:holbegram/widgets/text_field.dart';
 import 'login_screen.dart';
-import 'upload_image_screen.dart'; // Importation de la page AddPicture
+import 'upload_image_screen.dart';
 
-// Déclaration du widget Stateful pour la page d'inscription
+// Classe pour l'écran d'inscription
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -18,7 +18,6 @@ class SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmController = TextEditingController();
-  // Variable pour contrôler la visibilité du mot de passe
   bool _passwordVisible = true;
 
   // Libère les ressources des contrôleurs lorsqu'ils ne sont plus nécessaires
@@ -68,66 +67,61 @@ class SignUpScreenState extends State<SignUpScreen> {
   // Construire l'interface utilisateur
   @override
   Widget build(BuildContext context) {
-    // Obtenir les dimensions de l'écran
-    final Size screenSize = MediaQuery.of(context).size;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        // Utilisation de ConstrainedBox et IntrinsicHeight pour gérer la taille minimale et intrinsèque de la page
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: screenSize.height,
-          ),
-          child: IntrinsicHeight(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 28),
-                 // Titre de l'application
-                const Text(
+                SizedBox(height: screenHeight * 0.06),
+
+                // Affiche le texte et le logo de l'application
+                Text(
                   'Holbegram',
                   style: TextStyle(
                     fontFamily: 'Billabong',
-                    fontSize: 50,
+                    fontSize: screenHeight * 0.08,
                   ),
                 ),
-                 // Logo de l'application
                 Image.asset(
                   'assets/images/logo.png',
-                  width: 80,
-                  height: 60,
+                  width: screenWidth * 0.2,
+                  height: screenHeight * 0.08,
                 ),
-                const SizedBox(height: 16),
-                // Texte descriptif
-                const Text(
+                SizedBox(height: screenHeight * 0.05),
+
+                // Affiche le texte d'invitation à s'inscrire
+                Text(
                   'Sign up to see photos and videos\nfrom your friends.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: screenHeight * 0.02,
                     color: Colors.black54,
                   ),
                 ),
-                const SizedBox(height: 28),
-                // Padding pour ajouter des marges intérieures
+                SizedBox(height: screenHeight * 0.05),
+
+                // Affiche les champs de saisie pour l'inscription
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                   child: Column(
                     children: <Widget>[
-                      // Champ de texte pour l'email
                       TextFieldInput(
                         controller: emailController,
                         hintText: 'Email',
                         keyboardType: TextInputType.emailAddress,
                       ),
-                      const SizedBox(height: 24),
-                      // Champ de texte pour le nom d'utilisateur
+                      SizedBox(height: screenHeight * 0.03),
                       TextFieldInput(
                         controller: usernameController,
                         hintText: 'Username',
                       ),
-                      const SizedBox(height: 24),
-                      // Champ de texte pour le mot de passe avec option de visibilité
+                      SizedBox(height: screenHeight * 0.03),
                       TextFieldInput(
                         controller: passwordController,
                         isPassword: !_passwordVisible,
@@ -139,15 +133,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                             color: const Color.fromARGB(218, 226, 37, 24),
                           ),
                           onPressed: () {
-                            // Change la visibilité du mot de passe
                             setState(() {
                               _passwordVisible = !_passwordVisible;
                             });
                           },
                         ),
                       ),
-                      const SizedBox(height: 24),
-                      // Champ de texte pour la confirmation du mot de passe avec option de visibilité
+                      SizedBox(height: screenHeight * 0.03),
+
+                      // Affiche le champ de confirmation du mot de passe
                       TextFieldInput(
                         controller: passwordConfirmController,
                         isPassword: !_passwordVisible,
@@ -159,17 +153,17 @@ class SignUpScreenState extends State<SignUpScreen> {
                             color: const Color.fromARGB(218, 226, 37, 24),
                           ),
                           onPressed: () {
-                            // Change la visibilité du mot de passe
                             setState(() {
                               _passwordVisible = !_passwordVisible;
                             });
                           },
                         ),
                       ),
-                      const SizedBox(height: 28),
-                      // Bouton d'inscription
+                      SizedBox(height: screenHeight * 0.06),
+
+                      // Affiche le bouton d'inscription
                       SizedBox(
-                        height: 48,
+                        height: screenHeight * 0.06,
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -180,19 +174,28 @@ class SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           onPressed: navigateToAddPicture,
-                          child: const Text(
+                          child: Text(
                             'Sign Up',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenHeight * 0.020,
+                            ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: screenHeight * 0.03),
                       const Divider(thickness: 2),
-                      // Lien pour naviguer vers la page de connexion
+
+                      // Affiche le texte pour se connecter si l'utilisateur a déjà un compte
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Already have an account?"),
+                          Text(
+                            "Already have an account?",
+                            style: TextStyle(
+                              fontSize: screenHeight * 0.017,
+                            ),
+                          ),
                           TextButton(
                             onPressed: () {
                               Navigator.push(
@@ -200,11 +203,12 @@ class SignUpScreenState extends State<SignUpScreen> {
                                 MaterialPageRoute(builder: (context) => const LoginScreen()),
                               );
                             },
-                            child: const Text(
+                            child: Text(
                               'Log In',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(218, 226, 37, 24),
+                                color: const Color.fromARGB(218, 226, 37, 24),
+                                fontSize: screenHeight * 0.017,
                               ),
                             ),
                           ),
