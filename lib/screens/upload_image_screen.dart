@@ -4,11 +4,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:holbegram/screens/auth/methods/user_storage.dart';
 import 'package:holbegram/methods/auth_methods.dart';
 
+// Classe State associée au widget AddPicture pour ajouter une image de profil
 class AddPicture extends StatefulWidget {
   final String email;
   final String password;
   final String username;
 
+  // Constructeur de la classe AddPicture
   const AddPicture({
     super.key,
     required this.email,
@@ -16,10 +18,12 @@ class AddPicture extends StatefulWidget {
     required this.username,
   });
 
+  // Crée l'état associé au widget AddPicture
   @override
   AddPictureState createState() => AddPictureState();
 }
 
+// Classe State associée au widget AddPicture
 class AddPictureState extends State<AddPicture> {
   Uint8List? _image;
   bool _isLoading = false;
@@ -40,7 +44,7 @@ class AddPictureState extends State<AddPicture> {
     });
   }
 
-  // Méthode pour choisir une image
+  // Méthode pour choisir une image 
   Future<Uint8List> pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
     XFile? file = await picker.pickImage(source: source);
@@ -65,14 +69,14 @@ class AddPictureState extends State<AddPicture> {
     });
 
     try {
-      // Upload image to Firebase Storage
+      // Télécharge l'image sur Firebase Storage
       await StorageMethods().uploadImageToStorage(
         false,
         'profilePics',
         _image!,
       );
 
-      // Sign up user with the uploaded image URL
+      // Crée un utilisateur avec l'image téléchargée
       String res = await AuthMethods().signUpUser(
         email: widget.email,
         username: widget.username,
@@ -90,7 +94,7 @@ class AddPictureState extends State<AddPicture> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Sign up successful')),
         );
-        // Navigate to home screen here
+        // Redirige l'utilisateur vers la page de connexion
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(res)),
@@ -103,6 +107,7 @@ class AddPictureState extends State<AddPicture> {
         _isLoading = false;
       });
 
+      // Affiche un message d'erreur si l'inscription a échoué
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to sign up: $e')),
       );
@@ -111,99 +116,112 @@ class AddPictureState extends State<AddPicture> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(height: 28),
-                const Text(
-                  'Holbegram',
-                  style: TextStyle(
-                    fontFamily: 'Billabong',
-                    fontSize: 50,
-                  ),
-                ),
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 80,
-                  height: 60,
-                ),
-                const SizedBox(height: 28),
-                Text(
-                  'Hello, ${widget.username} Welcome to Holbegram.',
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Choose an image from your gallery or take a new one.',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 35),
-                _image != null
-                    ? CircleAvatar(
-                        radius: screenSize.width * 0.2,
-                        backgroundImage: MemoryImage(_image!),
-                      )
-                    : const CircleAvatar(
-                        radius: 100,
-                        backgroundColor: Colors.white,
-                        backgroundImage: AssetImage('assets/images/user_placeholder.png'),
-                      ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    IconButton(
-                      icon: const Icon(Icons.photo_library_outlined, color: Colors.red),
-                      iconSize: screenSize.width * 0.1,
-                      onPressed: selectImageFromGallery,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.07),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: screenHeight * 0.04),
+
+                  // Affiche le titre et le logo de l'application
+                  Text(
+                    'Holbegram',
+                    style: TextStyle(
+                      fontFamily: 'Billabong',
+                      fontSize: screenHeight * 0.08,
                     ),
-                    SizedBox(width: screenSize.width * 0.3),
-                    IconButton(
-                      icon: const Icon(Icons.camera_alt_outlined, color: Colors.red),
-                      iconSize: screenSize.width * 0.1,
-                      onPressed: selectImageFromCamera,
+                  ),
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: screenWidth * 0.2,
+                    height: screenHeight * 0.08,
+                  ),
+                  SizedBox(height: screenHeight * 0.05),
+
+                   // Message de bienvenue et instructions pour ajouter une image
+                  Text(
+                    'Hello, ${widget.username} Welcome to Holbegram.',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: screenHeight * 0.024,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 28),
-                _isLoading
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(218, 226, 37, 24),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                  ),
+                  SizedBox(height: screenHeight * 0.01),
+                  Text(
+                    'Choose an image from your gallery or take a new one.',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: screenHeight * 0.018,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * 0.05),
+
+                  // Avatar de l'utilisateur ou image de profil par défaut
+                  _image != null
+                      ? CircleAvatar(
+                          radius: screenWidth * 0.22,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : CircleAvatar(
+                          radius: screenWidth * 0.22,
+                          backgroundColor: Colors.white,
+                          backgroundImage: const AssetImage('assets/images/user_placeholder.png'),
                         ),
-                        onPressed: uploadImage,
-                        child: const Text(
-                          'Next',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                  SizedBox(height: screenHeight * 0.02),
+
+                  // Boutons pour sélectionner une image de la galerie ou de l'appareil photo
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        icon: const Icon(Icons.photo_library_outlined, color: Colors.red),
+                        iconSize: screenWidth * 0.09,
+                        onPressed: selectImageFromGallery,
                       ),
-              ],
+                      SizedBox(width: screenWidth * 0.25),
+                      IconButton(
+                        icon: const Icon(Icons.camera_alt_outlined, color: Colors.red),
+                        iconSize: screenWidth * 0.09,
+                        onPressed: selectImageFromCamera,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: screenHeight * 0.04),
+
+                  // Bouton pour télécharger l'image et créer un utilisateur
+                  _isLoading
+                      ? const CircularProgressIndicator()
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(218, 226, 37, 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.2, vertical: screenHeight * 0.02),
+                          ),
+                          onPressed: uploadImage,
+                          child: Text(
+                            'Next',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenHeight * 0.020,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                  SizedBox(height: screenHeight * 0.02),
+                ],
+              ),
             ),
           ),
         ),
