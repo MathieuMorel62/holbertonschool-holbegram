@@ -60,5 +60,13 @@
 	<key>FirebaseScreenReportingEnabled</key>
 	<false/>
 
+	<!-- Ajouts pour les autorisations de caméra et de bibliothèque de photos -->
+	<key>NSCameraUsageDescription</key>
+	<string>Nous avons besoin d'accéder à votre caméra pour prendre des photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Nous avons besoin d'accéder à votre bibliothèque de photos pour choisir des images.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Nous avons besoin de permission pour enregistrer des photos dans votre bibliothèque.</string>
+
 </dict>
 </plist>
