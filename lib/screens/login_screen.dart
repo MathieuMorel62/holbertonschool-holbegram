@@ -3,18 +3,22 @@ import 'package:holbegram/widgets/text_field.dart';
 import 'signup_screen.dart';
 import 'package:holbegram/methods/auth_methods.dart';
 
+// Classe pour l'écran de connexion
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  // Crée l'état associé au widget LoginScreen
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+// Classe State associée au widget LoginScreen
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _passwordVisible = true;
 
+  // Méthode pour libérer les ressources utilisées par le contrôleur de texte
   @override
   void dispose() {
     emailController.dispose();
@@ -22,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // Méthode pour initialiser l'état du widget
   @override
   void initState() {
     super.initState();
@@ -42,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login successful')),
       );
-      // Navigate to home screen here
+      // Redirige l'utilisateur vers l'écran d'accueil
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(res)),
@@ -52,38 +57,43 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          height: screenSize.height,
-          width: screenSize.width,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          height: screenHeight,
+          width: screenWidth,
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.07),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 28),
-              const Text(
+              SizedBox(height: screenHeight * 0.01),
+
+              // Affiche le titre et le logo de l'application
+              Text(
                 'Holbegram',
                 style: TextStyle(
                   fontFamily: 'Billabong',
-                  fontSize: 50,
+                  fontSize: screenHeight * 0.08,
                 ),
               ),
               Image.asset(
                 'assets/images/logo.png',
-                width: 80,
-                height: 60,
+                width: screenWidth * 0.2,
+                height: screenHeight * 0.08,
               ),
-              const SizedBox(height: 28),
+              SizedBox(height: screenHeight * 0.05),
+
+              // Affiche les champs de saisie pour l'email et le mot de passe
               TextFieldInput(
                 controller: emailController,
                 hintText: 'Email',
                 keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: screenHeight * 0.03),
               TextFieldInput(
                 controller: passwordController,
                 isPassword: !_passwordVisible,
@@ -101,9 +111,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 28),
+              SizedBox(height: screenHeight * 0.04),
+
+              // Affiche le bouton de connexion
               SizedBox(
-                height: 48,
+                height: screenHeight * 0.06,
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -113,32 +125,48 @@ class _LoginScreenState extends State<LoginScreen> {
                       side: const BorderSide(color: Colors.transparent),
                     ),
                   ),
-                  onPressed: loginUser, // Appel de la méthode loginUser lors de l'appui sur le bouton
-                  child: const Text(
+                  onPressed: loginUser,
+                  child: Text(
                     'Log In',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenHeight * 0.020,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
-              const Row(
+              SizedBox(height: screenHeight * 0.04),
+
+              // Affiche le texte pour réinitialiser le mot de passe
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Forgot your login details? '),
+                  Text(
+                    'Forgot your login details? ',
+                    style: TextStyle(fontSize: screenHeight * 0.017),
+                  ),
                   Text(
                     'Get help signing in.',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: screenHeight * 0.017,
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: screenHeight * 0.04),
               const Divider(thickness: 2),
+
+              // Affiche le texte pour créer un compte
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account"),
+                    Text(
+                      "Don't have an account",
+                      style: TextStyle(fontSize: screenHeight * 0.017),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -146,40 +174,53 @@ class _LoginScreenState extends State<LoginScreen> {
                           MaterialPageRoute(builder: (context) => const SignUpScreen()),
                         );
                       },
-                      child: const Text(
+
+                      // Affiche le bouton pour s'inscrire
+                      child: Text(
                         'Sign up',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(218, 226, 37, 24),
+                          color: const Color.fromARGB(218, 226, 37, 24),
+                          fontSize: screenHeight * 0.017,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
-              const Row(
+              SizedBox(height: screenHeight * 0.01),
+
+              // Affiche le texte OR
+              Row(
                 children: [
-                  Flexible(
+                  const Flexible(
                     child: Divider(thickness: 2),
                   ),
-                  Text(' OR '),
-                  Flexible(
+                  Text(
+                    ' OR ',
+                    style: TextStyle(fontSize: screenHeight * 0.017),
+                  ),
+                  const Flexible(
                     child: Divider(thickness: 2),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: screenHeight * 0.03),
+
+              // Affiche le bouton pour se connecter avec Google
               Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.network(
                     'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png',
-                    width: 40,
-                    height: 40,
+                    width: screenWidth * 0.1,
+                    height: screenHeight * 0.05,
                   ),
-                  const Text('Sign in with Google'),
+                  Text(
+                    'Sign in with Google',
+                    style: TextStyle(fontSize: screenHeight * 0.017),
+                  ),
                 ],
               ),
             ],
