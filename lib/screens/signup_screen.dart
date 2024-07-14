@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:holbegram/widgets/text_field.dart';
 import 'login_screen.dart';
-
+import 'upload_image_screen.dart'; // Importation de la page AddPicture
 
 // Déclaration du widget Stateful pour la page d'inscription
 class SignUpScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   // Variable pour contrôler la visibilité du mot de passe
   bool _passwordVisible = true;
 
-  // Libére les ressources des contrôleurs lorsqu'ils ne sont plus nécessaires
+  // Libère les ressources des contrôleurs lorsqu'ils ne sont plus nécessaires
   @override
   void dispose() {
     emailController.dispose();
@@ -36,6 +36,33 @@ class SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     super.initState();
     _passwordVisible = true;
+  }
+
+  // Vérifie si les champs ne sont pas vides avant de naviguer vers AddPicture
+  void navigateToAddPicture() {
+    if (emailController.text.isEmpty ||
+        usernameController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        passwordConfirmController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+    } else if (passwordController.text != passwordConfirmController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Passwords do not match')),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddPicture(
+            email: emailController.text,
+            username: usernameController.text,
+            password: passwordController.text,
+          ),
+        ),
+      );
+    }
   }
 
   // Construire l'interface utilisateur
@@ -152,7 +179,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                               side: const BorderSide(color: Colors.transparent),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: navigateToAddPicture,
                           child: const Text(
                             'Sign Up',
                             style: TextStyle(color: Colors.white),
