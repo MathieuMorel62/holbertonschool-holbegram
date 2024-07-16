@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:holbegram/screens/auth/methods/user_storage.dart';
 import 'package:holbegram/methods/auth_methods.dart';
+import 'package:holbegram/screens/home.dart';
+
 
 // Classe State associée au widget AddPicture pour ajouter une image de profil
 class AddPicture extends StatefulWidget {
@@ -93,6 +95,10 @@ class AddPictureState extends State<AddPicture> {
       if (res == 'success') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Sign up successful')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
         );
         // Redirige l'utilisateur vers la page de connexion
       } else {
