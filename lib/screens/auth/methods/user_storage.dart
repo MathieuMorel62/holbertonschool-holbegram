@@ -4,10 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 
+// Classe pour gérer les méthodes de stockage
 class StorageMethods {
-    final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  // Méthode pour télécharger une image
   Future<String> uploadImageToStorage(
       bool isPost,
     String childName,
