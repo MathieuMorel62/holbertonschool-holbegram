@@ -46,7 +46,6 @@ class AuthMethods {
       // Récupérer l'utilisateur actuel
       User? user = userCredential.user;
 
-      // Enregistrer les données de l'utilisateur dans Firestore
       if (user != null) {
         Users newUser = Users(
           uid: user.uid,
@@ -61,9 +60,10 @@ class AuthMethods {
           searchKey: username[0].toUpperCase(),
         );
 
+        // Ajouter les données de l'utilisateur à Firestore
         await _firestore.collection('users').doc(user.uid).set(newUser.toJson());
       }
-
+      // Si l'utilisateur a téléchargé une photo de profil
       return 'success';
     } catch (e) {
       return e.toString();
