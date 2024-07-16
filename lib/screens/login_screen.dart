@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:holbegram/widgets/text_field.dart';
 import 'signup_screen.dart';
 import 'package:holbegram/methods/auth_methods.dart';
+import 'package:holbegram/screens/home.dart';
+
 
 // Classe pour l'écran de connexion
 class LoginScreen extends StatefulWidget {
@@ -46,6 +48,11 @@ class _LoginScreenState extends State<LoginScreen> {
     if (res == 'success') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login successful')),
+      );
+      // Naviguer vers la page d'accueil
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()),
       );
       // Redirige l'utilisateur vers l'écran d'accueil
     } else {
@@ -131,6 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: screenHeight * 0.020,
+                      fontWeight: FontWeight.bold
                     ),
                   ),
                 ),
