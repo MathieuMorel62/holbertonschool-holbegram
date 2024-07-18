@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holbegram/utils/posts.dart';
+import 'package:holbegram/screens/pages/add_image.dart';
 
 // Classe pour gérer le feed
 class Feed extends StatelessWidget {
@@ -43,7 +44,14 @@ class Feed extends StatelessWidget {
               // Bouton d'ajout de post
               IconButton(
                 icon: const Icon(Icons.add, color: Colors.black),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddImage(),
+                    ),
+                  );
+                },
               ),
               // Bouton de messages
               IconButton(
