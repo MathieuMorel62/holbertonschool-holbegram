@@ -26,6 +26,11 @@ class PostStorage {
         'likes': [],
       });
 
+      // Ajouter le postId dans la collection 'users'
+      await _firestore.collection('users').doc(uid).update({
+        'posts': FieldValue.arrayUnion([postId]),
+      });
+
       return 'Ok';
     } catch (e) {
       return e.toString();
@@ -36,6 +41,14 @@ class PostStorage {
   Future<void> deletePost(String postId) async {
     try {
       await _firestore.collection('posts').doc(postId).delete();
+
+      // Retirer le postId de la collection 'users'
+      QuerySnapshot snapshot = await _firestore.collection('users').where('posts', arrayContains: postId).get();
+      for (var doc in snapshot.docs) {
+        await _firestore.collection('users').doc(doc.id).update({
+          'posts': FieldValue.arrayRemove([postId]),
+        });
+      }
     } catch (e) {
       rethrow;
     }
