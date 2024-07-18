@@ -95,6 +95,7 @@ class Posts extends StatelessWidget {
                             },
                           );
 
+                          // Si l'utilisateur confirme la suppression du post alors le post est supprimé
                           if (deleteConfirmed == true) {
                             await PostStorage().deletePost(post['postId']);
                             if (!context.mounted) return;
