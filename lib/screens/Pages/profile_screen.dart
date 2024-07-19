@@ -144,7 +144,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 const SizedBox(height: 20),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     buildStatColumn(postLen, "posts"),
                                     buildStatColumn(0, "followers"),
