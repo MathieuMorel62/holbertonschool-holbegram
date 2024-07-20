@@ -231,36 +231,40 @@ class FavoriteIconButtonState extends State<FavoriteIconButton> {
   }
 
   // Fonction pour marquer/démarquer un post comme favori
-  void toggleFavorite() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      DocumentReference favRef = FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('favorites')
-          .doc(widget.postId);
+void toggleFavorite() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    DocumentReference favRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorites')
+        .doc(widget.postId);
 
-      DocumentReference postRef = FirebaseFirestore.instance
-          .collection('posts')
-          .doc(widget.postId);
+    DocumentReference postRef = FirebaseFirestore.instance
+        .collection('posts')
+        .doc(widget.postId);
 
-      if (isFavorited) {
+    if (isFavorited) {
+      // Vérifier si le nombre de likes est supérieur à 0 avant de décrémenter
+      if (likesCount > 0) {
         await favRef.delete();
         await postRef.update({'likes': FieldValue.increment(-1)});
         setState(() {
           isFavorited = false;
           likesCount--;
         });
-      } else {
-        await favRef.set({'postId': widget.postId});
-        await postRef.update({'likes': FieldValue.increment(1)});
-        setState(() {
-          isFavorited = true;
-          likesCount++;
-        });
       }
+    } else {
+      await favRef.set({'postId': widget.postId});
+      await postRef.update({'likes': FieldValue.increment(1)});
+      setState(() {
+        isFavorited = true;
+        likesCount++;
+      });
     }
   }
+}
+
 
   // Affichage du bouton de favori
   @override
