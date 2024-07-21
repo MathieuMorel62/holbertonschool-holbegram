@@ -1,18 +1,14 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:holbegram/screens/auth/methods/user_storage.dart';
 import 'package:holbegram/methods/auth_methods.dart';
 import 'package:holbegram/screens/home.dart';
 
-
-// Classe State associée au widget AddPicture pour ajouter une image de profil
 class AddPicture extends StatefulWidget {
   final String email;
   final String password;
   final String username;
 
-  // Constructeur de la classe AddPicture
   const AddPicture({
     super.key,
     required this.email,
@@ -20,17 +16,14 @@ class AddPicture extends StatefulWidget {
     required this.username,
   });
 
-  // Crée l'état associé au widget AddPicture
   @override
   AddPictureState createState() => AddPictureState();
 }
 
-// Classe State associée au widget AddPicture
 class AddPictureState extends State<AddPicture> {
   Uint8List? _image;
   bool _isLoading = false;
 
-  // Méthode pour sélectionner une image de la galerie
   void selectImageFromGallery() async {
     Uint8List image = await pickImage(ImageSource.gallery);
     setState(() {
@@ -38,7 +31,6 @@ class AddPictureState extends State<AddPicture> {
     });
   }
 
-  // Méthode pour sélectionner une image de l'appareil photo
   void selectImageFromCamera() async {
     Uint8List image = await pickImage(ImageSource.camera);
     setState(() {
@@ -46,7 +38,6 @@ class AddPictureState extends State<AddPicture> {
     });
   }
 
-  // Méthode pour choisir une image 
   Future<Uint8List> pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
     XFile? file = await picker.pickImage(source: source);
@@ -57,7 +48,6 @@ class AddPictureState extends State<AddPicture> {
     }
   }
 
-  // Méthode pour uploader l'image sur Firebase Storage et créer un utilisateur
   Future<void> uploadImage() async {
     if (_image == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -71,13 +61,6 @@ class AddPictureState extends State<AddPicture> {
     });
 
     try {
-      // Télécharge l'image sur Firebase Storage
-      await StorageMethods().uploadImageToStorage(
-        false,
-        'profilePics',
-        _image!,
-      );
-
       // Crée un utilisateur avec l'image téléchargée
       String res = await AuthMethods().signUpUser(
         email: widget.email,
@@ -113,7 +96,6 @@ class AddPictureState extends State<AddPicture> {
         _isLoading = false;
       });
 
-      // Affiche un message d'erreur si l'inscription a échoué
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to sign up: $e')),
       );
