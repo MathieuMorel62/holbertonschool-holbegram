@@ -42,29 +42,34 @@ class AuthMethods {
 
       User? user = userCredential.user;
 
-      if (user != null) {
-        // Upload the profile image to Firebase Storage and get the URL
-        String photoUrl = await StorageMethods().uploadImageToStorage(
-          false,
-          'profilePics',
-          file,
-        );
-
-        Users newUser = Users(
-          uid: user.uid,
-          email: email,
-          username: username,
-          bio: '',
-          photoUrl: photoUrl, // Set the photo URL here
-          followers: [],
-          following: [],
-          posts: [],
-          saved: [],
-          searchKey: username[0].toUpperCase(),
-        );
-
-        await _firestore.collection('users').doc(user.uid).set(newUser.toJson());
+      if (user == null) {
+        // ignore: avoid_print
+        print("Erreur: L'utilisateur est null après la création.");
+        return 'User creation failed';
       }
+
+      // Upload the profile image to Firebase Storage and get the URL
+      String photoUrl = await StorageMethods().uploadImageToStorage(
+        false,
+        'profilePics',
+        file,
+      );
+
+      // Utilisation de la variable photoUrl
+      Users newUser = Users(
+        uid: user.uid,
+        email: email,
+        username: username,
+        bio: '',
+        photoUrl: photoUrl, // Set the photo URL here
+        followers: [],
+        following: [],
+        posts: [],
+        saved: [],
+        searchKey: username[0].toUpperCase(),
+      );
+
+      await _firestore.collection('users').doc(user.uid).set(newUser.toJson());
 
       return 'success';
     } catch (e) {
@@ -81,6 +86,9 @@ class AuthMethods {
     }
 
     DocumentSnapshot snap = await _firestore.collection('users').doc(currentUser.uid).get();
+    if (snap.data() == null) {
+      throw Exception('User data is null');
+    }
     return Users.fromSnap(snap);
   }
 }
