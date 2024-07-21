@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:holbegram/screens/login_screen.dart';
 
+// Classe principale de l'écran d'édition de profil
 class EditProfileScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
 
@@ -15,24 +16,29 @@ class EditProfileScreen extends StatefulWidget {
   EditProfileScreenState createState() => EditProfileScreenState();
 }
 
+// État associé à la classe EditProfileScreen
 class EditProfileScreenState extends State<EditProfileScreen> {
+  // Contrôleurs pour les champs de texte
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _currentPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+
   bool _isLoading = false;
   File? _image;
 
   @override
   void initState() {
     super.initState();
+    // Initialiser les contrôleurs avec les données utilisateur
     _usernameController.text = widget.userData['username'];
     _bioController.text = widget.userData['bio'];
   }
 
   @override
   void dispose() {
+    // Libérer les ressources des contrôleurs
     _usernameController.dispose();
     _bioController.dispose();
     _currentPasswordController.dispose();
@@ -41,6 +47,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
+  // Méthode pour mettre à jour le profil utilisateur
   Future<void> _updateProfile() async {
     setState(() {
       _isLoading = true;
@@ -49,6 +56,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     try {
       User? user = FirebaseAuth.instance.currentUser;
 
+      // Mettre à jour le mot de passe si un nouveau mot de passe est fourni
       if (_newPasswordController.text.isNotEmpty) {
         if (_newPasswordController.text != _confirmPasswordController.text) {
           setState(() {
@@ -66,19 +74,21 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       }
 
       String photoUrl = widget.userData['photoUrl'];
+      // Mettre à jour la photo de profil si une nouvelle image est sélectionnée
       if (_image != null) {
         final storageRef = FirebaseStorage.instance.ref().child('profile_pics').child('${user!.uid}.jpg');
         await storageRef.putFile(_image!);
         photoUrl = await storageRef.getDownloadURL();
       }
 
+      // Mettre à jour les informations utilisateur dans Firestore
       await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
         'username': _usernameController.text,
         'bio': _bioController.text,
         'photoUrl': photoUrl,
       });
 
-      // Mettre à jour les documents de publication avec la nouvelle image de profil
+      // Mettre à jour les documents de publication avec la nouvelle image de profil et le nouveau nom d'utilisateur
       var postDocs = await FirebaseFirestore.instance
           .collection('posts')
           .where('uid', isEqualTo: user.uid)
@@ -91,10 +101,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         });
       }
 
-      // ignore: use_build_context_synchronously
+      // Naviguer en arrière après la mise à jour du profil
       Navigator.of(context).pop();
     } catch (e) {
-      // ignore: avoid_print
       print(e.toString());
     }
 
@@ -103,6 +112,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
+  // Méthode pour sélectionner une image de la galerie
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
@@ -113,6 +123,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  // Méthode pour supprimer le compte utilisateur
   Future<void> _deleteAccount() async {
     bool confirmDelete = await showDialog(
       context: context,
@@ -139,13 +150,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         await FirebaseFirestore.instance.collection('users').doc(user!.uid).delete();
         await user.delete();
 
-        // ignore: use_build_context_synchronously
+        // Rediriger vers l'écran de connexion après la suppression du compte
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginScreen()),
           (Route<dynamic> route) => false,
         );
       } catch (e) {
-        // ignore: avoid_print
         print(e.toString());
       }
     }
@@ -163,26 +173,34 @@ class EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ],
       ),
+      // Affiche un indicateur de chargement ou le formulaire d'édition de profil
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
+                   // Afficher l'image de profil
                   _buildProfileImage(),
                   const SizedBox(height: 24),
+                  // Champ de texte pour le nom d'utilisateur
                   _buildTextField(_usernameController, 'Username', Icons.person),
                   const SizedBox(height: 16),
+                   // Champ de texte pour la bio
                   _buildTextField(_bioController, 'Bio', Icons.info),
                   const SizedBox(height: 16),
+                  // Champ de texte pour le mot de passe actuel
                   _buildTextField(_currentPasswordController, 'Current Password', Icons.lock, obscureText: true),
                   const SizedBox(height: 16),
+                   // Champ de texte pour le nouveau mot de passe
                   _buildTextField(_newPasswordController, 'New Password', Icons.lock_outline, obscureText: true),
                   const SizedBox(height: 16),
+                  // Champ de texte pour la confirmation du mot de passe
                   _buildTextField(_confirmPasswordController, 'Confirm Password', Icons.lock_outline, obscureText: true),
                   const SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity,
+                    // Bouton pour mettre à jour le profil
                     child: ElevatedButton(
                       onPressed: _updateProfile,
                       style: ElevatedButton.styleFrom(
@@ -208,6 +226,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  // Widget pour afficher et mettre à jour l'image de profil
   Widget _buildProfileImage() {
     return Stack(
       children: [
@@ -236,6 +255,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  // Widget pour construire un champ de texte avec des paramètres spécifiques
   Widget _buildTextField(TextEditingController controller, String labelText, IconData icon, {bool obscureText = false}) {
     return TextField(
       controller: controller,

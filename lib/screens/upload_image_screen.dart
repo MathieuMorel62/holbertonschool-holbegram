@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:holbegram/methods/auth_methods.dart';
 import 'package:holbegram/screens/home.dart';
 
+// Classe pour l'écran d'ajout d'image de profil
 class AddPicture extends StatefulWidget {
   final String email;
   final String password;
@@ -20,10 +21,12 @@ class AddPicture extends StatefulWidget {
   AddPictureState createState() => AddPictureState();
 }
 
+// Classe State associée au widget AddPicture
 class AddPictureState extends State<AddPicture> {
   Uint8List? _image;
   bool _isLoading = false;
 
+  // Méthode pour sélectionner une image de la galerie
   void selectImageFromGallery() async {
     Uint8List image = await pickImage(ImageSource.gallery);
     setState(() {
@@ -31,6 +34,7 @@ class AddPictureState extends State<AddPicture> {
     });
   }
 
+  // Méthode pour sélectionner une image de l'appareil photo
   void selectImageFromCamera() async {
     Uint8List image = await pickImage(ImageSource.camera);
     setState(() {
@@ -38,6 +42,7 @@ class AddPictureState extends State<AddPicture> {
     });
   }
 
+  // Méthode pour choisir une image de la galerie ou de l'appareil photo
   Future<Uint8List> pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
     XFile? file = await picker.pickImage(source: source);
@@ -48,6 +53,7 @@ class AddPictureState extends State<AddPicture> {
     }
   }
 
+  // Méthode pour télécharger l'image et créer un utilisateur
   Future<void> uploadImage() async {
     if (_image == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -69,12 +75,14 @@ class AddPictureState extends State<AddPicture> {
         file: _image,
       );
 
+      // Vérifie si le widget est toujours monté
       if (!mounted) return;
 
       setState(() {
         _isLoading = false;
       });
 
+      // Affiche un message de réussite ou d'échec
       if (res == 'success') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Sign up successful')),
@@ -96,6 +104,7 @@ class AddPictureState extends State<AddPicture> {
         _isLoading = false;
       });
 
+      // Affiche un message d'échec
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to sign up: $e')),
       );

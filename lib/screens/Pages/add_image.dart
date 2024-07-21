@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:holbegram/screens/pages/methods/post_storage.dart';
 import 'package:holbegram/widgets/bottom_nav.dart';
 
+// Classe principale de l'écran pour ajouter une image
 class AddImage extends StatefulWidget {
   const AddImage({super.key});
 
@@ -13,6 +14,7 @@ class AddImage extends StatefulWidget {
   AddImageState createState() => AddImageState();
 }
 
+// État associé à la classe AddImage
 class AddImageState extends State<AddImage> {
   Uint8List? _image;
   bool _isLoading = false;
@@ -27,6 +29,7 @@ class AddImageState extends State<AddImage> {
     _getUserData();
   }
 
+  // Récupère les données de l'utilisateur actuel
   Future<void> _getUserData() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -38,6 +41,7 @@ class AddImageState extends State<AddImage> {
     }
   }
 
+  // Affiche une feuille de modal pour sélectionner une image
   void selectImage() async {
     showModalBottomSheet(
       context: context,
@@ -76,6 +80,7 @@ class AddImageState extends State<AddImage> {
     );
   }
 
+  // Sélectionne une image à partir de la source spécifiée (galerie ou appareil photo)
   Future<Uint8List> pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
     XFile? file = await picker.pickImage(source: source);
@@ -86,6 +91,7 @@ class AddImageState extends State<AddImage> {
     }
   }
 
+  // Télécharge le post avec l'image et la légende
   Future<void> uploadPost() async {
     if (_image == null) {
       if (mounted) {
@@ -100,6 +106,7 @@ class AddImageState extends State<AddImage> {
       _isLoading = true;
     });
 
+    // Récupère l'utilisateur actuel et les données de l'utilisateur
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null && username != null && profileImageUrl != null) {
@@ -111,6 +118,7 @@ class AddImageState extends State<AddImage> {
           _image!,
         );
 
+        // Met à jour l'état de l'écran et affiche un message en fonction du résultat
         if (mounted) {
           setState(() {
             _isLoading = false;
@@ -138,6 +146,7 @@ class AddImageState extends State<AddImage> {
           _isLoading = false;
         });
 
+        // Affiche un message en cas d'erreur lors de l'upload
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to upload post: $e')),
         );

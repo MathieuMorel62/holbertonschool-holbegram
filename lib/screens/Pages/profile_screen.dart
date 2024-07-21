@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:holbegram/screens/login_screen.dart';
 import 'package:holbegram/screens/Pages/edit_profile_screen.dart';
 
+// Classe principale de l'écran de profil utilisateur
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -11,7 +12,9 @@ class ProfileScreen extends StatefulWidget {
   ProfileScreenState createState() => ProfileScreenState();
 }
 
+// État associé à la classe ProfileScreen
 class ProfileScreenState extends State<ProfileScreen> {
+  // Variables pour stocker les données utilisateur et les statistiques
   Map<String, dynamic> userData = {};
   int postLen = 0;
   int followers = 0;
@@ -24,23 +27,27 @@ class ProfileScreenState extends State<ProfileScreen> {
     getData();
   }
 
+  // Fonction pour récupérer les données de l'utilisateur et les statistiques depuis Firestore
   getData() async {
     setState(() {
       isLoading = true;
     });
     try {
+      // Récupère les données utilisateur
       var userSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
       userData = userSnap.data()!.cast<String, dynamic>();
 
+      // Récupère le nombre de posts de l'utilisateur
       var postSnap = await FirebaseFirestore.instance
           .collection('posts')
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
       postLen = postSnap.docs.length;
 
+      // Récupère le nombre de followers de l'utilisateur
       var followersSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(userData['uid'])
@@ -48,6 +55,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           .get();
       followers = followersSnap.docs.length;
 
+      // Récupère le nombre de personnes que l'utilisateur suit
       var followingSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(userData['uid'])
@@ -57,7 +65,6 @@ class ProfileScreenState extends State<ProfileScreen> {
 
       setState(() {});
     } catch (e) {
-      // ignore: avoid_print
       print(e.toString());
     }
     setState(() {
@@ -114,6 +121,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   ],
                   expandedHeight: 75,
                 ),
+                // Affiche les informations de profil de l'utilisateur
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -134,8 +142,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                           return const Center(child: Text('User data not found.'));
                         }
 
+                        // Récupère les données utilisateur depuis Firestore
                         userData = snapshot.data!.data() as Map<String, dynamic>;
 
+                        // Affiche les informations de profil de l'utilisateur
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -161,6 +171,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 const SizedBox(width: 20),
                                 Expanded(
+                                  // Affiche les statistiques de l'utilisateur (nombre de posts, followers, following)
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
@@ -173,6 +184,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             const SizedBox(height: 20),
+                            // Affiche la bio de l'utilisateur et un bouton pour modifier le profil
                             Text(
                               userData['bio'],
                               style: const TextStyle(
@@ -197,7 +209,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                                           builder: (context) => EditProfileScreen(userData: userData),
                                         ),
                                       );
-                                      getData(); // Update data after returning from EditProfileScreen
+                                      // Met à jour les données après le retour de l'écran de modification de profil
+                                      getData();
                                     },
                                     child: const Text(
                                       'Edit Profile',
@@ -247,7 +260,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
 
-                            // ignore: avoid_unnecessary_containers
                             return Container(
                               child: Image(
                                 image: NetworkImage(snap['postUrl']),
@@ -265,6 +277,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           );
   }
 
+  // Fonction pour créer une colonne de statistique (nombre de posts, followers, following)
   Column buildStatColumn(int num, String label) {
     return Column(
       mainAxisSize: MainAxisSize.min,

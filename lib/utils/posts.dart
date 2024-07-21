@@ -15,6 +15,7 @@ class Posts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Récupération des posts depuis la base de données
     return StreamBuilder(
       stream: (filterUid == null)
           ? FirebaseFirestore.instance
@@ -34,8 +35,10 @@ class Posts extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
+        // Récupération des données de la collection 'posts'
         final data = snapshot.requireData;
 
+        // Affichage des posts de l'utilisateur
         return ListView.builder(
           padding: const EdgeInsets.only(top: 30),
           itemCount: data.size,
@@ -47,9 +50,11 @@ class Posts extends StatelessWidget {
             String caption = post['caption'] ?? '';
             String postId = post.id;
 
+            // Récupération du nombre de likes
             int likesCount = (post['likes'] is List) ? post['likes'].length : post['likes'] ?? 0;
             String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
+            // Affichage du post
             return Container(
               margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 11),
               padding: const EdgeInsets.all(8),
@@ -93,6 +98,7 @@ class Posts extends StatelessWidget {
                             final action = await showDialog<PostAction>(
                               context: context,
                               builder: (BuildContext context) {
+                                // Boîte de dialogue pour choisir une action à effectuer sur le post
                                 return AlertDialog(
                                   title: const Center(child: Text('Choose an action')),
                                   content: const Text('Select an action to perform on this post'),
@@ -118,7 +124,7 @@ class Posts extends StatelessWidget {
                                 );
                               },
                             );
-
+                            // Exécution de l'action sélectionnée sur le post
                             if (action == PostAction.delete) {
                               bool? deleteConfirmed = await showDialog(
                                 // ignore: use_build_context_synchronously
@@ -141,6 +147,7 @@ class Posts extends StatelessWidget {
                                 },
                               );
 
+                              // Suppression du post de la base de données
                               if (deleteConfirmed == true) {
                                 await FirebaseFirestore.instance
                                     .collection('posts')
@@ -151,6 +158,7 @@ class Posts extends StatelessWidget {
                                   const SnackBar(content: Text('Post Deleted')),
                                 );
                               }
+                            // Modification du post dans la base de données
                             } else if (action == PostAction.edit) {
                               await showDialog(
                                 // ignore: use_build_context_synchronously
@@ -193,7 +201,7 @@ class Posts extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  // Affichage de votre légende
+                  // Affichage de la légende du post
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Column(
@@ -204,6 +212,7 @@ class Posts extends StatelessWidget {
                       ],
                     ),
                   ),
+                  // Affichage de l'image du post ou du post partagé
                   if (containsKey(post, 'sharedFrom')) ...[
                     const SizedBox(height: 10),
                     Container(
@@ -312,9 +321,11 @@ class Posts extends StatelessWidget {
     );
   }
 
+  // Fonction pour partager un post avec un autre utilisateur
   void sharePost(BuildContext context, QueryDocumentSnapshot post) async {
     TextEditingController captionController = TextEditingController();
 
+    // Boîte de dialogue pour partager un post avec un autre utilisateur
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -374,10 +385,12 @@ class Posts extends StatelessWidget {
     );
   }
 
+  // Fonction pour envoyer un message à un autre utilisateur
   void sendMessageToUser(BuildContext context, QueryDocumentSnapshot post) async {
     TextEditingController messageController = TextEditingController();
     User? currentUser = FirebaseAuth.instance.currentUser;
 
+    // Boîte de dialogue pour envoyer un message à un autre utilisateur
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -437,6 +450,7 @@ class FavoriteIconButton extends StatefulWidget {
   FavoriteIconButtonState createState() => FavoriteIconButtonState();
 }
 
+// Classe State associée au widget FavoriteIconButton
 class FavoriteIconButtonState extends State<FavoriteIconButton> {
   bool isFavorited = false;
   int likesCount = 0;

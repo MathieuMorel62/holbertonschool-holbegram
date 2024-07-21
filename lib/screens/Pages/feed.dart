@@ -6,6 +6,7 @@ import 'package:holbegram/screens/Pages/add_image.dart';
 import 'package:holbegram/screens/Pages/messages_screen.dart';
 import 'package:badges/badges.dart' as custom_badge;
 
+// Classe principale pour l'écran du fil d'actualité
 class Feed extends StatefulWidget {
   const Feed({super.key});
 
@@ -13,6 +14,7 @@ class Feed extends StatefulWidget {
   FeedState createState() => FeedState();
 }
 
+// État associé à la classe Feed
 class FeedState extends State<Feed> {
   String? selectedUid;
   bool hasUnreadMessages = false;
@@ -24,6 +26,7 @@ class FeedState extends State<Feed> {
     checkForUnreadMessages();
   }
 
+  // Méthode pour vérifier les messages non lus
   void checkForUnreadMessages() {
     FirebaseFirestore.instance
         .collection('users')
@@ -80,6 +83,7 @@ class FeedState extends State<Feed> {
                   );
                 },
               ),
+              // Afficher l'icône des messages avec un badge pour les messages non lus
               custom_badge.Badge(
                 position: custom_badge.BadgePosition.topEnd(top: 0, end: 3),
                 badgeContent: Text(
@@ -117,6 +121,7 @@ class FeedState extends State<Feed> {
     );
   }
 
+  // Méthode pour gérer la sélection d'un profil
   void onProfileSelected(String uid) {
     setState(() {
       selectedUid = uid;
@@ -124,6 +129,7 @@ class FeedState extends State<Feed> {
   }
 }
 
+// Widget pour afficher les profils suivis dans le fil d'actualité
 class FollowingProfiles extends StatelessWidget {
   final Function(String) onProfileSelected;
   const FollowingProfiles({super.key, required this.onProfileSelected});
@@ -148,8 +154,10 @@ class FollowingProfiles extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
 
+              // Récupérer les documents des profils suivis par l'utilisateur
               final followingDocs = snapshot.data?.docs ?? [];
 
+              // Afficher les profils suivis sous forme de liste horizontale
               return followingDocs.isEmpty
                   ? const SizedBox.shrink()
                   : Container(
@@ -172,6 +180,7 @@ class FollowingProfiles extends StatelessWidget {
                                 return const SizedBox.shrink();
                               }
 
+                              // Récupérer les données du profil suivi par l'utilisateur
                               var userData = userSnapshot.data?.data() as Map<String, dynamic>?;
 
                               if (userData == null) {

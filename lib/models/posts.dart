@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-// Classe pour gérer les données des posts
+// Classe représentant un Post (Publication)
 class Post {
   final String caption;
   final String uid;
@@ -12,7 +11,7 @@ class Post {
   final String postUrl;
   final String profImage;
 
-  // Constructeur pour initialiser les données du post
+  // Constructeur de la classe Post
   Post({
     required this.caption,
     required this.uid,
@@ -24,7 +23,7 @@ class Post {
     required this.profImage,
   });
 
-  // Convertir les données en objet
+  // Méthode statique pour créer un Post à partir d'un Map JSON
   static Post fromJson(Map<String, dynamic> json) {
     return Post(
       caption: json['caption'],
@@ -38,7 +37,7 @@ class Post {
     );
   }
 
-  // Convertir les données en JSON
+  // Méthode pour convertir un Post en Map JSON
   Map<String, dynamic> toJson() {
     return {
       'caption': caption,
