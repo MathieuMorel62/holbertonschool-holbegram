@@ -1,5 +1,7 @@
 # <p align="center">🌟 Holbegram 🌟</p>
 
+![holbegram](https://github.com/user-attachments/assets/a52df175-a3d1-4072-b132-d96f42af8deb)
+
 ## 📝 Description
 
 **Holbegram** is an innovative mobile application designed to offer an exceptional user experience on **Android** and **iOS** platforms. By using the powerful Flutter framework and the Dart language, **Holbegram** is distinguished by its performance and fluidity, allowing users to take full advantage of the modern features of a social network.
@@ -113,6 +115,12 @@ flutter_icons:
 ```
 
 </details>
+
+- [Font Family - Billabong](https://github.com/MathieuMorel62/holbertonschool-holbegram/blob/main/assets/fonts/Billabong.ttf)
+- [Font Family - InstagramSans](https://github.com/MathieuMorel62/holbertonschool-holbegram/blob/main/assets/fonts/InstagramSans.ttf)
+- [Img - Placeholder User](https://github.com/MathieuMorel62/holbertonschool-holbegram/blob/main/assets/images/user_placeholder.png)
+- [Img - Logo](https://github.com/MathieuMorel62/holbertonschool-holbegram/blob/main/assets/images/logo.png)
+- [Img - Add Image](https://github.com/MathieuMorel62/holbertonschool-holbegram/blob/main/assets/images/add-img.png)
 
 ## 🚀 Installation and Configuration
 
