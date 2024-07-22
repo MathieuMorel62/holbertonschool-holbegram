@@ -215,8 +215,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                                     child: const Text(
                                       'Edit Profile',
                                       style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15,
                                         color: Colors.white,
                                       ),
                                     ),
