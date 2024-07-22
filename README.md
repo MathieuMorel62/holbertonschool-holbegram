@@ -251,7 +251,11 @@ To use the Holbegram app on an iPhone for exemple, follow the steps below:
 3. **Use of features:**
 
     - Once connected, you can explore the different features of the application, such as publishing images, adding comments, tracking other users and much more.
-  
+
+## 📸 Screenshots
+
+<img src="https://github.com/user-attachments/assets/36db7945-1761-4b7c-bfb7-8e9f805e7d4f" alt="Login" width="19%"> <img src="https://github.com/user-attachments/assets/2b4606ea-fa3c-41ee-8ec1-570457cb8844" alt="register" width="19%"> <img src="https://github.com/user-attachments/assets/d7a55aca-364b-4470-9383-150363796650" alt="image profile" width="19%"> <img src="https://github.com/user-attachments/assets/2d56bab5-76c4-4d84-9d41-8729b430d441" alt="image profile" width="19%"> <img src="https://github.com/user-attachments/assets/4d4db0d9-19e0-4b4f-b5e9-06e64eb1758a" alt="image profile" width="19%"> <img src="https://github.com/user-attachments/assets/82392a84-7fbb-463e-91f0-1c9a8c5b1df8" alt="image profile" width="19%"> <img src="https://github.com/user-attachments/assets/5a476be3-e228-4e60-b885-05e4011c70e6" alt="image profile" width="19%"> <img src="https://github.com/user-attachments/assets/2e50247a-3044-435f-a854-df261a8b19f1" alt="image profile" width="19%"> <img src="https://github.com/user-attachments/assets/a1a24e13-afb3-464c-a307-a8271fb41ea1" alt="image profile" width="19%"> <img src="https://github.com/user-attachments/assets/1017c39a-18f5-451d-abd0-a760a7d36f71" alt="image profile" width="19%"> <img src="https://github.com/user-attachments/assets/dcf20263-b042-441e-9daf-e3944f57269b" alt="image profile" width="19%">
+
 ## ✨ Main Features
 
 1. **`User Authentication`**: Secure authentication system using Firebase, allowing users to log in and register with their email and password.
