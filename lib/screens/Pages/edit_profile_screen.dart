@@ -177,27 +177,28 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(26.0),
               child: Column(
                 children: [
+                  const SizedBox(height: 44),
                    // Afficher l'image de profil
                   _buildProfileImage(),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 54),
                   // Champ de texte pour le nom d'utilisateur
                   _buildTextField(_usernameController, 'Username', Icons.person),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 26),
                    // Champ de texte pour la bio
                   _buildTextField(_bioController, 'Bio', Icons.info),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 26),
                   // Champ de texte pour le mot de passe actuel
                   _buildTextField(_currentPasswordController, 'Current Password', Icons.lock, obscureText: true),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 26),
                    // Champ de texte pour le nouveau mot de passe
                   _buildTextField(_newPasswordController, 'New Password', Icons.lock_outline, obscureText: true),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 26),
                   // Champ de texte pour la confirmation du mot de passe
                   _buildTextField(_confirmPasswordController, 'Confirm Password', Icons.lock_outline, obscureText: true),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 72),
                   SizedBox(
                     width: double.infinity,
                     // Bouton pour mettre à jour le profil
@@ -231,13 +232,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     return Stack(
       children: [
         CircleAvatar(
-          radius: 50,
+          radius: 60,
           backgroundColor: Colors.grey.shade300,
           backgroundImage: _image != null ? FileImage(_image!) : NetworkImage(widget.userData['photoUrl']) as ImageProvider,
         ),
         Positioned(
           bottom: 0,
-          right: 0,
+          right: 7,
           child: IconButton(
             icon: const Icon(Icons.camera_alt, color: Colors.white),
             onPressed: _pickImage,
