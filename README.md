@@ -1,7 +1,3 @@
-
-
-https://github.com/user-attachments/assets/3d8af7d5-109d-4b1d-81ea-82545910a561
-
 # <p align="center">🌟 Holbegram 🌟</p>
 
 ![holbegram](https://github.com/user-attachments/assets/a52df175-a3d1-4072-b132-d96f42af8deb)
