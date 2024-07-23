@@ -36,7 +36,7 @@ Designed with an intuitive and responsive interface, **Holbegram** makes it easy
 
 ## 🎬 Video Test
 
-https://github.com/user-attachments/assets/ec8b4356-9ba2-4a7a-993d-0ec7198d6dcc
+https://github.com/user-attachments/assets/b659a514-dba0-4314-a67b-53a282d32e47
 
 ## 🛠️ Technologies and Tools Used
 
